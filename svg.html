@@ -1,11 +1,22 @@
 <html>
-<head>
-<title>SVG</title>
-<script type="text/javascript" src="svg.js"></script>
-</head>
+    <head>
+	<title>SVG</title>
+    </head>
 
-<body>
-<h1>SVG</h1>
-<div id="container"></div>
-</body>
+    <body>
+        <h1>SVG</h1>
+        <div id="container"></div>
+        
+        
+        
+        <!-- ________________SCRIPTS__________________ -->
+	<script type="text/javascript" src="svg.js"></script>
+	<script type="text/javascript">
+	    var p = new svg.Paper("container");
+	    var r1 = new svg.Rect();
+	    p.addElement(r1);
+	    var idT = setTimeout(function(){r1.node.setAttribute("width", "900")}, 2000);
+	</script>
+        
+    </body>
 </html>
