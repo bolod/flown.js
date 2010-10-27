@@ -8,8 +8,10 @@
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="600">
         <defs>
             <pattern id="mp" patternUnits="userSpaceOnUse" width="10" height="10">
-                <line stroke-width="1" stroke="#000" y2="10"/>
-                <line stroke-width="1" stroke="#000" x2="10"/>
+				<line stroke-width="1" y2="10" style="stroke-dasharray: 3, 2; stroke-width: 1; stroke: #555;" />
+                <line stroke-width="1" x2="10" style="stroke-dasharray: 3, 2; stroke-width: 1; stroke: #555;" />
+					
+				
             </pattern>
 
         </defs>
@@ -45,8 +47,8 @@
 		
 		<!-- DOWN: x=rect.x+rect.width/2-area.width/2; y=rect.y+rect.hright-area.height/2-->
 		<rect width="40" height="6" x="130" y="337" rx="2" ry="2" fill="#333"/>
-		<!-- RIGHT: x=rect.x+rect.width/2-area.width/2; y=rect.y+rect.height-area.height/2-->
-		<rect width="6" height="20" x="180" y="337" rx="2" ry="2" fill="#333"/>
+		<!-- RIGHT: x=rect.x+rect.width-area.width/2; y=rect.y+rect.height/2-area.height/2-->
+		<rect width="6" height="20" x="197" y="310" rx="2" ry="2" fill="#333"/>
 	    </g>
 	    
 	</g>
