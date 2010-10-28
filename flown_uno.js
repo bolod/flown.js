@@ -1,4 +1,12 @@
-
+/*** FLOWN ***/
+function Flown(div_id, grid_h_step, grid_v_step){
+    this.div_id = div_id;
+    this.h_step = h_step || 10;
+    this.v_step = v_step || 10;
+    /* crea il pattern svg che descrive la gliglia e ci riempie un rect */
+    
+    
+}
 
 
 
@@ -15,7 +23,7 @@ function LabeledBox(label, x, y, widht, heght) {
     //output
     this.outConnAreas = {};
     
-	this.box = new  /* svg.Rect() ...set fill="#57C" */
+    this.box = new  /* svg.Rect() ...set fill="#57C" */
     this.label = new /* svg.Text(label) */
     this.boxLayer = new /* svg.Layer() */
     this.boxLayer.addElement(this.box);
@@ -27,13 +35,30 @@ function LabeledBox(label, x, y, widht, heght) {
     
     /*** DRAG'N'DROP ***/
     this.globalLayer.drag(
-	function move(dx, dy){
-	    
+	function start_move(){
+	    this.ox = x;
+	    this.oy = y;
 	}
 	
-	function
+	function move(dx, dy){
+	    this.translate(dx, dy);
+	}
 	
+	function end_move(){
+	    
+	}
     );
+    
+    /*** SELECTION ***/
+    this.onSelection(){
+	/* save_state */
+	/*...*/
+    }
+    
+    this.onUnselection(){
+	/* restore state */
+	/*...*/
+    }
     
 }
 
@@ -146,16 +171,6 @@ extend(InputConnectionArea, ConnectionArea);
 extend(OutputConnectionArea, ConnectionArea);
 /********************************************/
 
-
-
-
-/*** GRID ***/
-function grid(h_step, v_step){
-    this.h_step = h_step;
-    this.v_step = v_step;
-    /* crea il pattern svg che descrive la gliglia e ci riempie un rect */
-    
-}
 
 
 
