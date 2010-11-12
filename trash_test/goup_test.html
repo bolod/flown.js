@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>ABC</title>
+	</head>
+	<body>
+		<div id="holder"></div>
+  
+  
+		<script src="raphael.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+		window.onload = function () {
+			/*** AUGMENT BUILT-IN ***/
+			Array.prototype.removeByElement = function(element){
+				for(var i = 0; i < this.length; i++ ){ 
+					if(this[i] == element)
+						this.splice(i,1); 
+				} 
+			}
+			/************************/
+			
+			
+			var R = Raphael("holder",400, 300);
+			var g = R.group();
+			var r1 = R.rect();
+			g.addElement(r1);
+		
+	
+	
+		}
+		</script>
+  </body>
+</html>

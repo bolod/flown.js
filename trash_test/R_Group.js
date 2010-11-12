@@ -1,0 +1,34 @@
+/*** AUGMENT BUILT-IN ***/
+Array.prototype.removeByElement = function(element){
+	for(var i = 0; i < this.length; i++ ){ 
+		if(this[i] == element)
+			this.splice(i,1); 
+	} 
+}
+/************************/
+
+
+Raphael.fn.group = function (svg) {
+	var el = $("g");
+	svg.canvas && this.svg.canvas[appendChild](el);
+	var res = new this.Element(el, svg);
+	res.type = "g";
+	res.grouped = [];
+	return res;
+};
+
+Raphael.fn.group["prototype"].addElement = function(el){
+	this.grouped[this.grouped.length-1] = el;
+	this.node.appendChild(el.node);
+};
+
+/** NOTE: use before el.remove() or think about call el.remove() after group-removal **/
+Raphael.fn.group["prototype"].removeElement = function(el){
+	this.grouped.removeByElement(el);
+};
+
+Raphael.fn.group["prototype"].translate = function(dx, dy){
+	for (var el in this.grouped){
+		al.translate(dx, dy);
+	}
+}

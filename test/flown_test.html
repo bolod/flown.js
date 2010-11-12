@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <title>Pagina di test per Flown.js</title>
+    </head>
+    <body>
+        <div id='holder' style="border: 2px solid black;">
+        </div>
+        <script src="../lib/jquery.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="../lib/raphael.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="../lib/raphaelle.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script src="../src/flown.js" type="text/javascript" charset="utf-8">
+        </script>
+        <script type="text/javascript" charset="utf-8">
+            var F = new Flown('holder', "100%", 600);
+            
+            var b_opts = {
+                box: {
+                    type: 'rect',
+                    attr: {
+                        x: 100,
+                        y: 100,
+                        width: 100,
+                        height: 50,
+                        fill: '#EAEAEA',
+						stroke: 'black',
+						'stroke-width': 1
+                    }
+                },
+                label: {
+                    text: 'DATA',
+                    attr: {
+						text: 'DATA',
+						x: 150,
+						y: 125,
+                        "font-size": 20,
+                    }
+                }
+            }
+            
+            var d1 = F.getDataBox(b_opts);
+        </script>
+    </body>
+</html>
