@@ -1,0 +1,117 @@
+<html>
+  <head>
+    <title>Raphael group test</title>
+    <style></style>
+  </head>
+  <body>
+    <div id="holder" style="border: 2px solid black;"></div>
+  
+	<script src="../lib/raphael.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		var paper = Raphael("holder", 800, 600);
+		
+		var r1 = paper.rect(200, 200, 40, 20, 2).attr({fill: "red"});
+
+		var c1 = paper.circle(200,200,30).attr({fill: "green"});
+		
+		var c2 = paper.circle(100, 100, 30).attr({fill: "orange"});
+		
+		var g = paper.group();
+		g.add(c1);
+		g.add(r1);
+		
+		var start = function (event) {          
+			// storing original coordinates       
+			for(var m = g.members, i = m.length; i--; ) {         
+				var c_x = (m[i].type == 'rect') ? "x" : "cx";
+				var c_y = (m[i].type == 'rect') ? "y" : "cy";         
+				
+				m[i].ox = m[i].attr(c_x);
+				m[i].oy = m[i].attr(c_y);
+			}
+		};       
+
+		var move = function (dx, dy, clientx, clienty, event) {     
+			// move will be called with dx and dy     
+			for(var m = g.members, i = m.length; i--; ) {          
+				var c_x = (m[i].type == 'rect') ? "x" : "cx";         
+				var c_y = (m[i].type == 'rect') ? "y" : "cy";          
+				
+				m[i].attr(c_x, m[i].ox + dx);          
+				m[i].attr(c_y, m[i].oy + dy);       
+			} 
+		};
+
+		var up = function (event) {   };       
+		g.drag(move, start, up);     
+		
+		/*	
+		var start = function (event) {     
+			// storing original coordinates
+
+			this._drag.ox = this._drag.x;
+			this._drag.oy = this._drag.y;  
+
+			//this._drag.tx = this._drag.x;
+
+			//this.attr({opacity: .5}); 
+		};
+			
+		var move = function (dx, dy, clientx, clienty, event) {
+			// move will be called with dx and dy
+			
+			var t_x = this._drag.x + dx - this._drag.ox;
+			var t_y = this._drag.y + dy - this._drag.oy;
+			this._drag.ox += t_x;
+			this._drag.oy += t_y;
+			
+			this.translate(t_x, t_y);
+		};
+			
+		var up = function (event) {
+			// restoring state
+			//this.attr({opacity: 1}); 
+		};
+
+			g.drag(move, start, up);
+		*/	
+			
+			
+			/*
+			function(dx,dy,wx,wy,event) { //MOVE
+				var t_x = event.clientX - this._drag.tx;
+				var t_y = event.clientY - this._drag.ty;
+				this._drag.tx = t_x;
+				this._drag.ty = t_y;
+				this.translate(t_x, t_y);
+				console.log('MOVE - t_x: ' + t_x + ', t_y: '+t_y);
+			},
+			function() { //START
+				console.log('START');
+				this._drag.tx = this._drag.x;
+				this._drag.ty = this._drag.y;
+			},
+			function() { //STOP
+				console.log('STOP');
+			});
+			*/
+			
+		var Cstart = function () {
+			// storing original coordinates
+			this.ox = this.attr("cx");
+			this.oy = this.attr("cy");
+			this.attr({opacity: 1});
+		},
+		Cmove = function (dx, dy) {
+			// move will be called with dx and dy
+			this.attr({cx: this.ox + dx, cy: this.oy + dy});
+		},
+		Cup = function () {
+			// restoring state
+			this.attr({opacity: .5});
+		};
+		c2.drag(Cmove, Cstart, Cup);
+		
+	</script>
+  </body>
+</html>

@@ -1,0 +1,306 @@
+/*** FLOWN ***/
+
+(function() {
+	function Flown(paper, options){
+        this.paper = paper;
+        this.paper.canvas.raphael = this.paper; // .raphael is set for elements but not for the canvas
+        this.paper.name = "paper";
+        
+        this.h_step = options.grid_h_step || 1;
+	    this.v_step = options.grid_v_step || 1;
+		
+		
+	    
+		//setup pattern
+        //...
+		
+	    this.elements = {data: [], func: [], conn: []};
+	};
+	
+	Flown.prototype = {
+		setDataBoxStyle: function (opts) {
+			DataBox.prototype.style = opts;
+		},
+		
+		setFuncBoxStyle: function (opts) {
+			FuncBox.prototype.style = opts;
+		},
+		
+		addBox: function (box) {
+			this.elements[box.type].push(box);
+		},
+		
+		removeBox: function (box) {
+			this.elements[box.type].removeByElement(box);
+		},
+		
+		
+		dataBox: function () {
+			var box = new DataBox(this.paper, this.dataBoxStyle);
+			this.addBox(box);
+			return box;
+		},
+		
+		funcBox: function () {
+			var box = new FuncBox(this.paper, this.funcBoxStyle);
+			this.addBox(box);
+			return box;
+		},
+		
+		connect: function(from_box, to_box) {
+			//...
+		}
+	};
+		
+		
+	function init_lBox(paper, opts) {		
+		this.box = paper[opts.box.type]().attr(opts.box.attr);
+		this.label = paper.text().attr(opts.label.attr);
+		//input
+		this.inConnAreas = InputConnectionAreas.init(paper, opts.conns.inputs);
+		
+		//output
+		this.outConnAreas = OutputConnectionAreas.init(paper,opts.conns.outputs);
+	
+		
+		/*** DRAG'N'DROP ***/
+		this.dragger = paper.dragger([this.box, this.label], this.inConnAreas.map(ConnectionArea.getAreaNode).concat(this.outConnAreas.map(ConnectionArea.getAreaNode)), function(dx, dy){console.log(dx + ' - ' + dy)});
+		
+		/*** SELECTION ***/
+		this.onSelection = function () {
+		/* save_state */
+		/*...*/
+		};
+		
+		this.onUnselection = function (){
+		/* restore state */
+		/*...*/
+		};
+		
+	};
+	
+	function DataBox(paper){
+		this.type = 'data';
+		//defaults
+		var defaults_style = {
+			box: {
+				type: 'rect',
+				attr: {
+					x: 10,
+					y: 10,
+					width: 80,
+					height: 40,
+					r: 10,
+					fill: 'blue',
+					'fill-opacity': .7,
+					'stroke-width': 1,
+					cursor: 'move'
+				}
+			},
+			label: {
+				type: 'text',
+				attr: {
+					text: 'Data',
+					x: 50,
+					y: 32,
+					fill: 'white',
+					'font-size': '24 px',
+					cursor: 'move'
+				}
+			},
+			conns: {
+				inputs: [{
+					type: 'circle',
+					attr: {
+						cx: 50,
+						cy: 10,
+						r: 4,
+						fill: 'black'
+					}
+				}],
+				outputs: [{
+					type: 'circle',
+					attr: {
+						cx: 50,
+						cy: 50,
+						r: 4,
+						fill: 'black'
+					}
+				}]
+			}
+		};
+		
+		init_lBox.call(this, paper, this.hasOwnProperty("style") ? this.style : defaults_style);			
+	};
+	
+	function FuncBox(label, x, y, width, height) {
+		this.type = 'func';
+		
+		//defaults
+		var defaults_style = {
+			box: {
+				type: 'rect',
+				attr: {
+					x: 10,
+					y: 10,
+					width: 120,
+					height: 80,
+					rx: 40,
+					ry: 10,
+					fill: 'grey',
+					'fill-opacity': .7,
+					'stroke-width': 1,
+					cursor: 'move'
+				}
+			},
+			label: {
+				type: 'text',
+				attr: {
+					text: 'FUNC',
+					x: 70,
+					y: 55,
+					fill: 'white',
+					'font-size': '24 px',
+					cursor: 'move'
+				}
+			},
+			conns: {
+				inputs: [{
+					type: 'circle',
+					attr: {
+						cx: 70,
+						cy: 10,
+						r: 4,
+						fill: 'black'
+					}
+				},
+				{
+					type: 'circle',
+					attr: {
+						cx: 10,
+						cy: 50,
+						r: 4,
+						fill: 'black'
+					}
+				}],
+				outputs: [{
+					type: 'circle',
+					attr: {
+						cx: 70,
+						cy: 90,
+						r: 4,
+						fill: 'black'
+					}
+				},
+				{
+					type: 'circle',
+					attr: {
+						cx: 130,
+						cy: 50,
+						r: 4,
+						fill: 'black'
+					}
+				}]
+			}
+		};
+	
+		init_lBox.call(this, paper, this.hasOwnProperty("style") ? this.style : defaults_style);
+	};
+
+
+	var InputConnectionAreas = {
+		init: function (paper, inputs) {
+			var i = 0,
+				ica = [];
+			
+			for (i=inputs.length; i--; ) {
+				ica.push(new InputConnectionArea(paper, inputs[i]));
+			}
+			
+			return ica;
+		}
+	}, 
+	OutputConnectionAreas = {
+		init: function (paper, outputs) {
+			var i = 0,
+			oca = [];
+			
+			for (i=outputs.length; i--; ) {
+				oca.push(new OutputConnectionArea(paper, outputs[i]));
+			}
+			
+			return oca;
+		}
+	}, ConnectionArea = {
+		getAreaNode: function(ca) {
+				return ca.area;
+		}
+	};
+	
+	
+	
+	function InputConnectionArea(paper, opts){
+		var area = this.area = paper[opts.type]().attr(opts.attr);
+	};
+	
+	function OutputConnectionArea(paper, opts){
+		var area = this.area = paper[opts.type]().attr(opts.attr);
+		
+		var ox = null,
+		oy = null,
+		svg_path_node = null,
+		addConnection = function(dx, dy) {
+			/**NBB a conneciton is {from: ..., to: ...}**/
+			
+		},
+		drawConnection = function(dx, dy){
+			svg_path_node.attr("path", "M" + ox + "," + oy + " l" + dx + "," + dy);
+		},
+		setupConnection = function() {
+			ox = area.attr("cx");
+			oy = area.attr("cy");
+			svg_path_node = paper.path("");
+		},
+		validateConnection = function(event) {
+			console.log('toElement:');
+			console.log(event.toElement);
+			console.log('target:');
+			console.log(event.target);
+		};
+		this.area.drag(drawConnection, setupConnection, validateConnection)
+	};
+	
+	
+	
+	
+	/**********DA SISTEMARE***********/
+	
+	
+	/*** SELECTION ***/
+	var selector  = {
+	    selectedObject: [],
+	    
+	    addToSelection: function(args){
+			for (var obj in arguments) {
+				this.selectedObject[this.selectedObject.length] = arguments[obj];
+			}
+	    },
+	    
+	    removeFromSelection: function(args){
+			for (var obj in arguments) {
+				this.selectedObject.removeByElement(arguments[obj]);
+			}
+	    }
+	}
+	
+	/*** AUGMENT BUILT-IN ***/
+	Array.prototype.removeByElement = function(element){
+	    for(var i = 0; i < this.length; i++ ){ 
+		if(this[i] == element)
+		    this.splice(i,1); 
+	    } 
+	}
+	
+	
+	this.Flown = Flown; 
+}) ();

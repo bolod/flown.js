@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>Raphael group test</title>
+    <style></style>
+  </head>
+  <body>
+    <div id="holder" style="border: 2px solid black;"></div>
+  
+	<script src="../lib/raphael.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../src/dragger.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+		var paper = Raphael("holder", "100%", "100%");
+		
+		var r1_act = paper.rect(200, 200, 40, 20, 2).attr({fill: "red"});
+
+		var c1_act = paper.circle(200,200,30).attr({fill: "green"});
+		
+		var r1_pas = paper.rect(200, 400, 40, 20, 2).attr({fill: "blu"});
+		
+		var c1_pas = paper.rect(400, 200, 40, 20, 2).attr({fill: "brown"});
+		
+		var csolo = paper.circle(100, 100, 30).attr({fill: "orange"});
+		
+		var active = [r1_act, c1_act];
+		var passive = [r1_pas, c1_pas];
+		
+		var cb = function(dx, dy) {
+			console.log('dx: ' + dx + ', dy: ' + dy )
+		};
+		
+		var d = paper.dragger(active, passive, cb);
+		
+		
+		var Cstart = function () {
+			// storing original coordinates
+			this.ox = this.attr("cx");
+			this.oy = this.attr("cy");
+			this.attr({opacity: 1});
+		},
+		Cmove = function (dx, dy) {
+			// move will be called with dx and dy
+			this.attr({cx: this.ox + dx, cy: this.oy + dy});
+		},
+		Cup = function () {
+			// restoring state
+			this.attr({opacity: .5});
+		};
+		csolo.drag(Cmove, Cstart, Cup);
+		
+	</script>
+  </body>
+</html>

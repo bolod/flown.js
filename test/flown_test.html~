@@ -14,9 +14,12 @@
         </script>
         <script type="text/javascript" charset="utf-8">
             var paper = Raphael('holder', "100%", 600);
-            var F = new Flown(paper, {});
+            var F = new Flown(paper, {});            
+            for (var i = 100; i--;) {
 				F.dataBox();
 				F.funcBox();
+			}
+            
         </script>
     </body>
 </html>
